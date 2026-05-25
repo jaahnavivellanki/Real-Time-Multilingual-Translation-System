@@ -1,0 +1,285 @@
+/* Main container */
+.app-root {
+  @apply min-h-screen py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center;
+  background: linear-gradient(135deg, 
+    rgba(248, 250, 252, 1) 0%,
+    rgba(241, 245, 249, 0.8) 25%,
+    rgba(226, 232, 240, 0.6) 50%,
+    rgba(241, 245, 249, 0.8) 75%,
+    rgba(248, 250, 252, 1) 100%);
+}
+
+html.dark .app-root {
+  background: linear-gradient(135deg,
+    rgba(15, 23, 42, 1) 0%,
+    rgba(30, 41, 59, 0.8) 25%,
+    rgba(51, 65, 85, 0.6) 50%,
+    rgba(30, 41, 59, 0.8) 75%,
+    rgba(15, 23, 42, 1) 100%);
+}
+
+/* Main container wrapper */
+.app-root-simple {
+  @apply min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8;
+  background: linear-gradient(135deg, 
+    rgba(248, 250, 252, 1) 0%,
+    rgba(241, 245, 249, 0.9) 50%,
+    rgba(226, 232, 240, 0.8) 100%);
+}
+
+html.dark .app-root-simple {
+  background: linear-gradient(135deg,
+    rgba(15, 23, 42, 1) 0%,
+    rgba(30, 41, 59, 0.9) 50%,
+    rgba(51, 65, 85, 0.8) 100%);
+}
+
+/* Main card container */
+.card-simple {
+  @apply w-full max-w-2xl;
+  animation: slide-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+  @apply bg-white/80 dark:bg-slate-900/80 
+    backdrop-blur-xl 
+    border border-white/30 dark:border-white/10
+    rounded-3xl 
+    shadow-2xl shadow-slate-900/10 dark:shadow-slate-900/30
+    p-8 sm:p-10 lg:p-12
+    transition-all duration-300;
+}
+
+/* Card hover effect */
+.card-simple:hover {
+  @apply shadow-2xl;
+  box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.15);
+}
+
+/* Card header */
+.card-header-simple {
+  @apply text-center mb-8 sm:mb-10;
+  animation: fade-in 0.7s ease-out 0.1s both;
+}
+
+.card-title-simple {
+  @apply text-4xl sm:text-5xl font-bold 
+    bg-clip-text text-transparent
+    bg-gradient-to-r from-violet-600 to-cyan-500
+    dark:from-violet-400 dark:to-cyan-300
+    m-0 leading-tight;
+  letter-spacing: -0.02em;
+}
+
+.card-subtitle-simple {
+  @apply text-lg text-slate-600 dark:text-slate-300
+    mt-4 font-medium;
+}
+
+/* Form body */
+.card-body-simple {
+  @apply flex flex-col gap-6 sm:gap-8;
+}
+
+/* Labels */
+.label-simple {
+  @apply block text-sm font-semibold text-slate-700 dark:text-slate-200
+    mb-2 uppercase tracking-[0.05em];
+}
+
+/* Textarea styling */
+.textarea-simple {
+  @apply w-full px-5 py-4 rounded-2xl
+    bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm
+    border border-slate-200/50 dark:border-slate-700/50
+    text-slate-900 dark:text-slate-100
+    placeholder-slate-400 dark:placeholder-slate-500
+    font-medium text-base leading-relaxed
+    resize-none transition-all duration-300
+    focus:outline-none focus:ring-2 focus:ring-violet-500/50
+    focus:border-violet-400 dark:focus:border-violet-500
+    focus:shadow-lg;
+  min-height: 160px;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0), inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.textarea-simple:focus {
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.textarea-simple:hover {
+  @apply border-slate-300 dark:border-slate-600;
+}
+
+/* Row and column layout */
+.row-simple {
+  @apply flex items-center gap-3 sm:gap-4 flex-col sm:flex-row;
+}
+
+.col-simple {
+  @apply flex-1;
+}
+
+.swap-col {
+  @apply sm:flex-none;
+}
+
+/* Swap button */
+.swap-simple {
+  @apply h-12 sm:h-14 px-4 rounded-xl
+    bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm
+    border border-slate-200/50 dark:border-slate-700/50
+    text-slate-700 dark:text-slate-200
+    font-bold text-lg
+    cursor-pointer transition-all duration-300
+    hover:bg-slate-100/90 dark:hover:bg-slate-700/50
+    hover:border-violet-400 dark:hover:border-violet-500
+    hover:text-violet-600 dark:hover:text-violet-400
+    active:scale-95
+    sm:w-auto w-full;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.swap-simple:hover {
+  box-shadow: 0 8px 16px rgba(139, 92, 246, 0.1);
+}
+
+/* Actions section */
+.actions-simple {
+  @apply flex flex-col sm:flex-row gap-4 mt-8;
+}
+
+/* Primary button */
+.btn-primary-simple {
+  @apply px-8 py-4 rounded-xl
+    font-bold text-white text-base
+    cursor-pointer transition-all duration-300
+    bg-gradient-to-r from-violet-600 to-cyan-500
+    hover:from-violet-700 hover:to-cyan-600
+    active:scale-95
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-violet-600 disabled:hover:to-cyan-500
+    flex items-center justify-center gap-2;
+  min-height: 48px;
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+}
+
+.btn-primary-simple:hover:not(:disabled) {
+  box-shadow: 0 12px 30px rgba(139, 92, 246, 0.4);
+}
+
+/* Output section */
+.output-simple {
+  @apply mt-10 sm:mt-12
+    bg-white/60 dark:bg-slate-800/40 backdrop-blur-sm
+    border border-slate-200/50 dark:border-slate-700/50
+    rounded-2xl p-6 sm:p-8
+    transition-all duration-300;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.output-simple:hover {
+  @apply border-slate-300 dark:border-slate-600;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+}
+
+.output-header-simple {
+  @apply font-bold text-sm uppercase tracking-[0.1em]
+    text-slate-700 dark:text-slate-200
+    mb-4 opacity-80;
+}
+
+.output-body-simple {
+  @apply min-h-[180px] text-slate-900 dark:text-slate-100
+    font-medium text-base leading-relaxed
+    relative;
+}
+
+.translated-simple {
+  @apply whitespace-pre-wrap;
+}
+
+/* Error styling */
+.error-simple {
+  @apply bg-red-50 dark:bg-red-950/40 backdrop-blur-sm
+    border border-red-200/50 dark:border-red-800/50
+    text-red-700 dark:text-red-200
+    p-4 rounded-xl
+    font-medium text-sm leading-relaxed;
+  animation: slide-up 0.4s ease-out both;
+}
+
+/* Output actions */
+.output-actions-simple {
+  @apply flex flex-col sm:flex-row items-center justify-between gap-4 mt-6;
+}
+
+/* Copy button */
+.btn-copy-simple {
+  @apply px-6 py-3 rounded-xl
+    font-semibold text-white text-sm
+    cursor-pointer transition-all duration-300
+    bg-slate-900 dark:bg-slate-700
+    hover:bg-slate-800 dark:hover:bg-slate-600
+    active:scale-95
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-slate-900;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-copy-simple:hover:not(:disabled) {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Status label */
+.status-simple {
+  @apply text-sm font-semibold uppercase tracking-[0.05em]
+    text-slate-500 dark:text-slate-400
+    px-3 py-1 rounded-full
+    bg-slate-100/80 dark:bg-slate-800/50 backdrop-blur-sm
+    border border-slate-200/50 dark:border-slate-700/50;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .row-simple {
+    @apply flex-col;
+  }
+
+  .swap-simple {
+    @apply w-full;
+  }
+
+  .card-title-simple {
+    @apply text-3xl;
+  }
+
+  .card-simple {
+    @apply p-6 sm:p-8;
+  }
+
+  .output-actions-simple {
+    @apply flex-col;
+  }
+
+  .btn-copy-simple {
+    @apply w-full;
+  }
+}
+
+/* Animations */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
