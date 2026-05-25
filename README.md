@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # LangFlow — Language Translation App
 
 A modern React translation web application built with Vite, Tailwind CSS, Axios, and LibreTranslate.
@@ -96,3 +97,7 @@ This repository includes:
 - `package.json` with scripts for dev, build, lint, and preview
 
 Enjoy building your modern translation app with React and Tailwind!
+=======
+# Real-Time-Multilingual-Translation-System
+A web-based multilingual translation system that uses a translation API to convert text between different languages in real time through a simple and interactive user interface.
+>>>>>>> dbf59fd2e50d4271501de74cb2ca4c243289b0ef
