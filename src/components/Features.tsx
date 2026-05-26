@@ -1,21 +1,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import {
+  Globe,
   Zap,
+  Target,
+  Clipboard,
   Moon,
-  ArrowRightLeft,
-  Copy,
-  Smartphone,
-  Sparkles,
+  Lock,
 } from 'lucide-react';
-
 interface FeatureCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
   index: number;
 }
-
 const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description, index }) => {
   return (
     <motion.div
@@ -28,12 +26,10 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description, ind
     >
       {/* Gradient background blur effect on hover */}
       <div className="absolute inset-0 bg-gradient-to-br from-violet-600/20 to-cyan-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
       {/* Card container with glassmorphism */}
       <div className="relative bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-8 overflow-hidden transition-all duration-300 group-hover:border-violet-400/50 dark:group-hover:border-violet-400/30 group-hover:shadow-2xl group-hover:shadow-violet-500/10">
         {/* Animated gradient border on hover */}
         <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-px bg-gradient-to-br from-violet-500 to-cyan-500 pointer-events-none" />
-
         <div className="relative z-10 space-y-4">
           {/* Icon container with gradient background */}
           <motion.div
@@ -43,17 +39,14 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description, ind
           >
             {icon}
           </motion.div>
-
           {/* Title */}
           <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-300">
             {title}
           </h3>
-
           {/* Description */}
           <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-base">
             {description}
           </p>
-
           {/* Decorative arrow that appears on hover */}
           <motion.div
             className="flex items-center gap-2 text-violet-600 dark:text-violet-400 font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -70,41 +63,39 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description, ind
     </motion.div>
   );
 };
-
 const Features: React.FC = () => {
   const features = [
     {
+      icon: <Globe size={40} className="stroke-current" />,
+      title: 'Multi-language Translation',
+      description: 'Translate text instantly across multiple global languages with contextual accuracy.',
+    },
+    {
       icon: <Zap size={40} className="stroke-current" />,
-      title: 'Instant Translation',
-      description: 'Understand any text instantly in your preferred language with reliable translation.',
+      title: 'Fast Translation Engine',
+      description: 'Optimized translation pipeline with retry handling and smooth response flow.',
     },
     {
-      icon: <Sparkles size={40} className="stroke-current" />,
-      title: 'Multi-Language Support',
-      description: 'Translate between 100+ global languages easily and seamlessly.',
+      icon: <Target size={40} className="stroke-current" />,
+      title: 'Context-Aware Translation',
+      description: 'Generates natural and meaningful translations instead of literal word-by-word output.',
     },
     {
-      icon: <ArrowRightLeft size={40} className="stroke-current" />,
-      title: 'Smart Language Swap',
-      description: 'Instantly switch between source and target languages with one click.',
-    },
-    {
-      icon: <Copy size={40} className="stroke-current" />,
-      title: 'One-Click Copy',
-      description: 'Copy translated text quickly and use it anywhere in your workflow.',
+      icon: <Clipboard size={40} className="stroke-current" />,
+      title: 'Copy to Clipboard',
+      description: 'Easily copy translated text with a single click.',
     },
     {
       icon: <Moon size={40} className="stroke-current" />,
-      title: 'Dark/Light Mode',
-      description: 'Comfortable viewing experience in any lighting with smooth theme switching.',
+      title: 'Dark Mode Support',
+      description: 'Modern responsive UI with dark/light theme switching.',
     },
     {
-      icon: <Smartphone size={40} className="stroke-current" />,
-      title: 'Fully Responsive Design',
-      description: 'Works smoothly on mobile, tablet, and desktop for a seamless experience.',
+      icon: <Lock size={40} className="stroke-current" />,
+      title: 'Stable Error Handling',
+      description: 'Graceful retry system and user-friendly fallback messages for API failures.',
     },
   ];
-
   return (
     <section
       id="features"
@@ -115,7 +106,6 @@ const Features: React.FC = () => {
         <div className="absolute -top-1/2 -right-1/4 w-96 h-96 bg-gradient-to-b from-violet-500/20 to-transparent rounded-full blur-3xl" />
         <div className="absolute -bottom-1/4 -left-1/4 w-96 h-96 bg-gradient-to-t from-cyan-500/20 to-transparent rounded-full blur-3xl" />
       </div>
-
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -132,7 +122,6 @@ const Features: React.FC = () => {
             Everything you need for seamless translation with a modern, intuitive interface
           </p>
         </motion.div>
-
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {features.map((feature, index) => (
@@ -145,7 +134,6 @@ const Features: React.FC = () => {
             />
           ))}
         </div>
-
         {/* Bottom CTA Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -171,5 +159,5 @@ const Features: React.FC = () => {
     </section>
   );
 };
-
 export default Features;
+

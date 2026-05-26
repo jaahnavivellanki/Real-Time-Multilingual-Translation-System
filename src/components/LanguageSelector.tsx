@@ -6,7 +6,7 @@ type LanguageOption = {
   label: string;
 };
 
-interface LanguageSelectProps {
+interface LanguageSelectorProps {
   id: string;
   label: string;
   value: string;
@@ -14,7 +14,7 @@ interface LanguageSelectProps {
   onChange: (value: string) => void;
 }
 
-const LanguageSelect: React.FC<LanguageSelectProps> = ({ id, label, value, options, onChange }) => {
+const LanguageSelector: React.FC<LanguageSelectorProps> = ({ id, label, value, options, onChange }) => {
   return (
     <motion.label
       className="block text-left"
@@ -60,4 +60,4 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({ id, label, value, optio
   );
 };
 
-export default LanguageSelect;
+export default LanguageSelector;

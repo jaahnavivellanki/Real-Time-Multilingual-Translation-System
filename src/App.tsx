@@ -1,18 +1,15 @@
+
 // Using translation utility with fallback system for stable, production-ready translations
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
 import './App.css';
 import Navbar from './components/navbar';
+import Features from './components/Features';
 import Footer from './components/Footer';
-import LanguageSelect from './components/LanguageSelect';
+import LanguageSelector from './components/LanguageSelector';
 import TranslationResult from './components/TranslationResult';
-import { translateWithFallback } from './translateWithFallback';
-import {
-  prepareSpeechForTranslation,
-  postprocessTranslationResult,
-} from './translationProcessing';
-
+import { translateWithFallback } from './components/translateWithFallback';
 const languageOptions = [
   { value: 'auto', label: 'Auto-detect' },
   { value: 'en', label: 'English' },
@@ -33,11 +30,8 @@ const languageOptions = [
   { value: 'tr', label: 'Turkish' },
   { value: 'nl', label: 'Dutch' },
 ];
-
 const MAX_CHARACTERS = 1000;
-
 type TranslationStatus = 'idle' | 'translating' | 'done';
-
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [text, setText] = useState('');
@@ -47,7 +41,10 @@ const App: React.FC = () => {
   const [status, setStatus] = useState<TranslationStatus>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [copyMessage, setCopyMessage] = useState('');
-
+  // Target language options should exclude 'auto' (Auto-detect)
+  const targetLanguageOptions = useMemo(() => {
+    return languageOptions.filter((opt) => opt.value !== 'auto');
+  }, []);
   // Theme management
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -57,7 +54,6 @@ const App: React.FC = () => {
     setIsDarkMode(isInitiallyDark);
     updateTheme(isInitiallyDark);
   }, []);
-
   const updateTheme = (isDark: boolean) => {
     if (isDark) {
       document.documentElement.classList.add('dark');
@@ -66,20 +62,16 @@ const App: React.FC = () => {
     }
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   };
-
   const handleToggleTheme = () => {
     const newDarkMode = !isDarkMode;
     setIsDarkMode(newDarkMode);
     updateTheme(newDarkMode);
   };
-
   const characterCount = text.length;
   const isTextTooLong = characterCount > MAX_CHARACTERS;
   const canTranslate = Boolean(text.trim()) && !isTextTooLong && status !== 'translating';
-
   const handleCopy = useCallback(async () => {
     if (!translatedText) return;
-
     try {
       await navigator.clipboard.writeText(translatedText);
       setCopyMessage('Copied to clipboard');
@@ -89,77 +81,46 @@ const App: React.FC = () => {
       window.setTimeout(() => setCopyMessage(''), 1800);
     }
   }, [translatedText]);
-
   const handleTranslate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrorMessage('');
     setTranslatedText('');
-
     const trimmedText = text.trim();
     if (!trimmedText) {
       setErrorMessage('Please enter text to translate.');
       return;
     }
-
     if (sourceLanguage !== 'auto' && sourceLanguage === targetLanguage) {
       setErrorMessage('Please select different source and target languages.');
       return;
     }
-
     if (isTextTooLong) {
       setErrorMessage(`Text cannot exceed ${MAX_CHARACTERS} characters.`);
       return;
     }
-
     setStatus('translating');
-
     try {
-      // Apply smart preprocessing (greeting detection, name protection)
-      const { processedText, nameMap, replacements } = prepareSpeechForTranslation(
-        trimmedText,
-        sourceLanguage,
-        targetLanguage
-      );
-
-      // If greetings were detected and replaced, use preprocessed text directly
-      let translated: string;
-      if (replacements.size > 0) {
-        // Greetings were replaced - use those directly, translate the rest
-        translated = await translateWithFallback(processedText, sourceLanguage, targetLanguage);
-      } else {
-        // No special greeting replacements - use normal translation
-        translated = await translateWithFallback(processedText, sourceLanguage, targetLanguage);
-      }
-
-      // Apply smart post-processing (name restoration, translation corrections)
-      const finalTranslation = postprocessTranslationResult(
-        translated,
-        nameMap,
-        targetLanguage,
-        sourceLanguage
-      );
-
-      setTranslatedText(finalTranslation);
+      const translated = await translateWithFallback(trimmedText, sourceLanguage, targetLanguage);
+      setTranslatedText(translated);
       setStatus('done');
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Translation failed:', err);
       setStatus('idle');
-      setErrorMessage('Translation service temporarily unavailable. Please try again later.');
+      const message = err instanceof Error ? err.message : 'Translation service temporarily unavailable. Please try again later.';
+      setErrorMessage(message);
     }
   };
-
   const handleSwapLanguages = () => {
+    if (sourceLanguage === 'auto') return;
     const temp = sourceLanguage;
     setSourceLanguage(targetLanguage);
     setTargetLanguage(temp);
   };
-
   const statusLabel = useMemo(() => {
     if (status === 'translating') return 'Translating...';
     if (translatedText) return 'Translation ready';
     return 'Awaiting your input';
   }, [status, translatedText]);
-
   return (
     <div className={isDarkMode ? 'dark' : ''}>
       <Navbar isDarkMode={isDarkMode} onToggleTheme={handleToggleTheme} />
@@ -175,7 +136,6 @@ const App: React.FC = () => {
             <h1 className="card-title-simple">Language Translator</h1>
             <p className="card-subtitle-simple">Translate text instantly across multiple languages</p>
           </header>
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10">
             {/* Input Section */}
             <motion.div
@@ -193,28 +153,27 @@ const App: React.FC = () => {
                   placeholder="Type or paste text here..."
                   maxLength={MAX_CHARACTERS}
                 />
-
                 <div className="row-simple">
                   <div className="col-simple">
-                    <LanguageSelect id="source" label="Source" value={sourceLanguage} options={languageOptions} onChange={setSourceLanguage} />
+                    <LanguageSelector id="source" label="Source" value={sourceLanguage} options={languageOptions} onChange={setSourceLanguage} />
                   </div>
                   <div className="col-simple swap-col">
                     <motion.button
                       type="button"
-                      className="swap-simple"
+                      className={`swap-simple ${sourceLanguage === 'auto' ? 'opacity-50 cursor-not-allowed' : ''}`}
                       onClick={handleSwapLanguages}
-                      whileHover={{ scale: 1.08, rotate: 180 }}
-                      whileTap={{ scale: 0.95 }}
+                      disabled={sourceLanguage === 'auto'}
+                      whileHover={{ scale: sourceLanguage === 'auto' ? 1 : 1.08, rotate: sourceLanguage === 'auto' ? 0 : 180 }}
+                      whileTap={{ scale: sourceLanguage === 'auto' ? 1 : 0.95 }}
                       transition={{ type: 'spring', stiffness: 400 }}
                     >
                       ⇄
                     </motion.button>
                   </div>
                   <div className="col-simple">
-                    <LanguageSelect id="target" label="Target" value={targetLanguage} options={languageOptions} onChange={setTargetLanguage} />
+                    <LanguageSelector id="target" label="Target" value={targetLanguage} options={targetLanguageOptions} onChange={setTargetLanguage} />
                   </div>
                 </div>
-
                 <div className="actions-simple">
                   <motion.button
                     type="submit"
@@ -229,7 +188,6 @@ const App: React.FC = () => {
                 </div>
               </form>
             </motion.div>
-
             {/* Output Section */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -246,7 +204,6 @@ const App: React.FC = () => {
               />
             </motion.div>
           </div>
-
           {/* Character Count Warning */}
           {isTextTooLong && (
             <motion.div
@@ -263,10 +220,9 @@ const App: React.FC = () => {
           )}
         </motion.div>
       </div>
-
+      <Features />
       <Footer />
     </div>
   );
 };
-
 export default App;
