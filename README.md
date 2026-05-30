@@ -92,7 +92,7 @@ LANGUAGE-TRANSLATION-TOOL/
 ### Clone Repository
 
 ```bash id="3qx0fh"
-git clone https://github.com/your-username/LangFlow-Language-Translation-App.git
+git clone https://github.com/jaahnavivellanki/LangFlow-Language-Translation-App.git
 cd LangFlow-Language-Translation-App
 ```
 
